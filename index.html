@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chet Allen | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        /* ── PEANUT BUTTER FLAVOR ──────────────────────────────────── */
+        :root {
+            --cream:   #FFF8DC;
+            --tan:     #F5E4A8;
+            --gold:    #D4940A;
+            --peanut:  #C87820;
+            --dark:    #3D1C02;
+            --brown:   #6B3200;
+            --orange:  #E06418;
+            --accent:  #B03010;
+            --light:   #FFFAED;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            color: var(--dark);
+            overflow-x: hidden;
+            background: var(--cream);
+        }
+
+        /* ── BACKGROUND ─────────────────────────────────────────────── */
+        .bg-wrap {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(160deg,
+                #FFF3C0 0%, #FFE08A 25%, #FFF0B0 50%, #FFE8A0 75%, #FFF3C0 100%);
+            background-size: 300% 300%;
+            animation: warmPulse 12s ease infinite;
+        }
+        .bg-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent 0px, transparent 14px,
+                rgba(180, 100, 0, 0.07) 14px, rgba(180, 100, 0, 0.07) 28px
+            );
+        }
+        @keyframes warmPulse {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ── PSI SCROLL METER ───────────────────────────────────────── */
+        #psi-meter {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 150;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .psi-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 7px;
+            color: var(--dark);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            letter-spacing: 2px;
+        }
+        .psi-track {
+            width: 14px;
+            height: 120px;
+            border: 3px solid var(--dark);
+            box-shadow: 3px 3px 0 var(--dark);
+            background: var(--cream);
+            border-radius: 2px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+        .psi-fill {
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to top, var(--accent), var(--orange), var(--gold));
+            transition: height 0.3s ease;
+        }
+        .psi-stars { font-size: 12px; line-height: 1; }
+
+        /* ── NAV ─────────────────────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 200;
+            background: var(--dark);
+            border-bottom: 4px solid var(--gold);
+            padding: 12px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            color: var(--tan);
+            letter-spacing: 1px;
+        }
+        .nav-logo span { color: var(--gold); }
+        .nav-links { display: flex; gap: 6px; list-style: none; }
+        .nav-links a {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            color: var(--tan);
+            text-decoration: none;
+            padding: 7px 13px;
+            border: 2px solid transparent;
+            transition: all 0.1s;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(212, 148, 10, 0.12);
+        }
+
+        /* ── DIALOG BOX ─────────────────────────────────────────────── */
+        .dialog-box {
+            background: var(--light);
+            border: 4px solid var(--dark);
+            box-shadow: 8px 8px 0 var(--dark), inset 0 0 0 3px var(--gold);
+            border-radius: 6px;
+            padding: 32px 36px;
+        }
+
+        /* ── HERO ────────────────────────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 24px 40px;
+        }
+        .hero-inner {
+            max-width: 780px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 36px;
+            align-items: center;
+        }
+        .hero-photo {
+            width: 180px;
+            height: 180px;
+            flex-shrink: 0;
+            border: 4px solid var(--dark);
+            box-shadow: 6px 6px 0 var(--dark);
+            background: var(--tan);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 4px;
+            color: var(--brown);
+            overflow: hidden;
+        }
+        .hero-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .hero-photo .ph-icon { font-size: 40px; }
+        .hero-photo .ph-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 6px;
+            text-align: center;
+            line-height: 1.8;
+            color: var(--brown);
+        }
+        .hero-text { text-align: left; }
+        .hero-name {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 28px;
+            color: var(--dark);
+            text-shadow: 3px 3px 0 var(--peanut), 6px 6px 0 var(--brown);
+            line-height: 1.4;
+            margin-bottom: 16px;
+        }
+        .hero-sub {
+            font-size: 24px;
+            color: var(--brown);
+            line-height: 1.7;
+            margin-bottom: 28px;
+            min-height: 60px;
+        }
+        .hero-sub .cursor-blink {
+            display: inline-block;
+            width: 12px;
+            height: 18px;
+            background: var(--dark);
+            animation: blink 0.8s step-end infinite;
+            vertical-align: bottom;
+            margin-left: 2px;
+        }
+        @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+        .hero-btn {
+            display: inline-block;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 11px;
+            color: var(--dark);
+            background: var(--gold);
+            padding: 13px 26px;
+            border: 3px solid var(--dark);
+            box-shadow: 5px 5px 0 var(--dark);
+            text-decoration: none;
+            animation: bobble 1.4s ease-in-out infinite alternate;
+            transition: background 0.1s, color 0.1s;
+        }
+        .hero-btn:hover { background: var(--accent); color: var(--cream); }
+        @keyframes bobble {
+            from { transform: translateY(0); }
+            to   { transform: translateY(-7px); }
+        }
+
+        /* ── SECTIONS ────────────────────────────────────────────────── */
+        .section-wrap {
+            max-width: 940px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 16px;
+            color: var(--dark);
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .section-title .s-icon {
+            font-size: 20px;
+            display: inline-block;
+            animation: spinIcon 5s linear infinite;
+            color: var(--peanut);
+        }
+        @keyframes spinIcon {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* ── ABOUT ───────────────────────────────────────────────────── */
+        .about-text {
+            font-size: 22px;
+            line-height: 1.85;
+            color: var(--dark);
+            margin-bottom: 24px;
+        }
+        .about-text p + p { margin-top: 14px; }
+
+        .skills-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 9px;
+            color: var(--brown);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        .skill-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .chip {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            padding: 7px 13px;
+            border: 2px solid var(--dark);
+            box-shadow: 3px 3px 0 var(--dark);
+            background: var(--tan);
+            color: var(--dark);
+            transition: all 0.1s;
+        }
+        .chip:hover {
+            background: var(--peanut);
+            color: var(--cream);
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0 var(--dark);
+        }
+
+        /* ── INTERESTS ───────────────────────────────────────────────── */
+        .interests-layout {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 0;
+            border: 3px solid var(--dark);
+            box-shadow: 5px 5px 0 var(--dark);
+            overflow: hidden;
+        }
+        .interests-menu {
+            background: var(--tan);
+            border-right: 3px solid var(--dark);
+            padding: 8px 0;
+        }
+        .interest-tab {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            color: var(--dark);
+            border-bottom: 2px solid rgba(61, 28, 2, 0.15);
+            transition: background 0.1s;
+            user-select: none;
+        }
+        .interest-tab:last-child { border-bottom: none; }
+        .interest-tab .tab-arrow {
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity 0.1s;
+        }
+        .interest-tab.active,
+        .interest-tab:hover {
+            background: var(--peanut);
+            color: var(--cream);
+        }
+        .interest-tab.active .tab-arrow,
+        .interest-tab:hover .tab-arrow { opacity: 1; }
+
+        .interests-content { background: var(--light); position: relative; }
+        .interest-panel {
+            display: none;
+            padding: 28px 28px;
+            animation: fadeIn 0.2s ease;
+        }
+        .interest-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: none; } }
+
+        .interest-panel h3 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            color: var(--dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .interest-panel p {
+            font-size: 21px;
+            line-height: 1.8;
+            color: var(--dark);
+            margin-bottom: 14px;
+        }
+        .interest-panel p:last-child { margin-bottom: 0; }
+        .interest-highlight {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--dark);
+            padding: 2px 7px;
+            border: 1px solid var(--dark);
+            font-size: 19px;
+        }
+
+        /* ── PROJECTS ────────────────────────────────────────────────── */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
+        }
+        .project-card {
+            background: var(--light);
+            border: 4px solid var(--dark);
+            box-shadow: 8px 8px 0 var(--dark);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.12s, box-shadow 0.12s;
+        }
+        .project-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0 var(--dark);
+        }
+        .project-screenshot {
+            width: 100%;
+            height: 170px;
+            background: var(--tan);
+            border-bottom: 3px solid var(--dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--brown);
+            overflow: hidden;
+            position: relative;
+        }
+        .project-screenshot img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .project-screenshot .ph-icon { font-size: 32px; }
+        .project-screenshot .ph-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 6px;
+            text-align: center;
+            line-height: 1.8;
+        }
+        .card-header {
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 3px solid var(--dark);
+            background: var(--tan);
+        }
+        .card-icon  { font-size: 28px; line-height: 1; }
+        .card-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        .card-body { padding: 18px 20px; }
+        .card-desc {
+            font-size: 20px;
+            line-height: 1.65;
+            margin-bottom: 14px;
+        }
+        .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+        .tag {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 7px;
+            padding: 4px 8px;
+            border: 2px solid var(--dark);
+            background: var(--gold);
+            color: var(--dark);
+        }
+        .card-links { display: flex; flex-wrap: wrap; gap: 10px; }
+        .card-link {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            padding: 9px 14px;
+            border: 2px solid var(--dark);
+            box-shadow: 3px 3px 0 var(--dark);
+            text-decoration: none;
+            color: var(--dark);
+            background: var(--cream);
+            transition: all 0.1s;
+        }
+        .card-link:hover {
+            background: var(--dark);
+            color: var(--gold);
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0 var(--accent);
+        }
+        .card-link.primary { background: var(--peanut); color: var(--cream); }
+        .card-link.primary:hover { background: var(--dark); }
+
+        /* ── CONTACT ──────────────────────────────────────────────────── */
+        .contact-center { text-align: center; }
+        .contact-tagline {
+            font-size: 26px;
+            line-height: 1.8;
+            margin-bottom: 36px;
+        }
+        .contact-btns {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+        }
+        .contact-btn {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 9px;
+            padding: 14px 22px;
+            border: 3px solid var(--dark);
+            box-shadow: 5px 5px 0 var(--dark);
+            text-decoration: none;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.12s;
+        }
+        .contact-btn:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0 var(--dark);
+            background: var(--dark);
+            color: var(--gold);
+        }
+        .btn-email    { background: var(--tan); }
+        .btn-linkedin { background: var(--gold); }
+        .btn-github   { background: var(--peanut); color: var(--cream); }
+        .btn-github:hover { color: var(--gold); }
+
+        /* ── FOOTER ───────────────────────────────────────────────────── */
+        footer {
+            background: var(--dark);
+            color: rgba(245,228,168,0.55);
+            text-align: center;
+            padding: 18px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 7px;
+            border-top: 4px solid var(--gold);
+            line-height: 2.4;
+        }
+
+        /* ── CLICK BURST ─────────────────────────────────────────────── */
+        .burst-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 18px;
+            animation: burstOut 0.9s ease-out forwards;
+        }
+        @keyframes burstOut {
+            0%   { transform: translate(0,0) scale(1);   opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0.3); opacity: 0; }
+        }
+
+        /* ── KONAMI OVERLAY ──────────────────────────────────────────── */
+        #konami-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        #konami-overlay.show { opacity: 1; pointer-events: all; }
+        #konami-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, #FF6B9D, #FFD93D, #87CEEB, #A8E6CF, #C39BD3, #FF8E53, #FF6B9D);
+            background-size: 400% 400%;
+            animation: rainbow 0.5s ease infinite;
+            opacity: 0.92;
+        }
+        @keyframes rainbow {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .konami-msg {
+            position: relative;
+            z-index: 1;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 18px;
+            color: var(--dark);
+            background: white;
+            border: 4px solid var(--dark);
+            box-shadow: 8px 8px 0 var(--dark);
+            padding: 32px 40px;
+            text-align: center;
+            line-height: 2;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .konami-msg .small {
+            font-size: 9px;
+            display: block;
+            margin-top: 12px;
+            color: #555;
+        }
+        @keyframes popIn { from { transform: scale(0.5); } to { transform: scale(1); } }
+
+        /* ── SCROLL REVEAL ───────────────────────────────────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── RESPONSIVE ──────────────────────────────────────────────── */
+        @media (max-width: 700px) {
+            .hero-inner        { grid-template-columns: 1fr; text-align: center; }
+            .hero-photo        { margin: 0 auto; }
+            .hero-text         { text-align: center; }
+            .projects-grid     { grid-template-columns: 1fr; }
+            .hero-name         { font-size: 20px; }
+            .nav-logo          { font-size: 9px; }
+            .nav-links a       { font-size: 7px; padding: 6px 9px; }
+            .dialog-box        { padding: 22px 18px; }
+            #psi-meter         { display: none; }
+            .interests-layout  { grid-template-columns: 1fr; }
+            .interests-menu    { border-right: none; border-bottom: 3px solid var(--dark); display: flex; }
+            .interest-tab      { flex: 1; justify-content: center; border-bottom: none; border-right: 2px solid rgba(61,28,2,0.15); }
+            .interest-tab:last-child { border-right: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-wrap"></div>
+
+<!-- PSI Scroll Meter -->
+<div id="psi-meter">
+    <div class="psi-stars">★</div>
+    <div class="psi-track"><div class="psi-fill" id="psiFill"></div></div>
+    <div class="psi-label">PSI</div>
+</div>
+
+<!-- Konami Overlay -->
+<div id="konami-overlay">
+    <div class="konami-msg">
+        ★ PSI ROCKIN' ★<br>
+        YOU FOUND THE SECRET!
+        <span class="small">click anywhere to dismiss</span>
+    </div>
+</div>
+
+<!-- NAV -->
+<nav>
+    <span class="nav-logo"><span>▶</span> CHET ALLEN</span>
+    <ul class="nav-links">
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#interests">INTERESTS</a></li>
+        <li><a href="#projects">PROJECTS</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-inner dialog-box">
+        <div class="hero-photo">
+            <img src="images/profile.jpg" alt="Chet Allen">
+            <div class="ph-icon">👤</div>
+            <div class="ph-label">ADD YOUR<br>PHOTO HERE<br><br>images/profile.jpg</div>
+        </div>
+        <div class="hero-text">
+            <div class="hero-name">CHET ALLEN</div>
+            <div class="hero-sub" id="heroSub">
+                <span id="heroTyped"></span><span class="cursor-blink"></span>
+            </div>
+            <a href="#projects" class="hero-btn">▶ VIEW MY WORK</a>
+        </div>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<div class="section-wrap" id="about">
+    <div class="dialog-box reveal">
+        <h2 class="section-title"><span class="s-icon">✿</span> ABOUT ME</h2>
+        <div class="about-text">
+            <p>
+                Hey! I'm Chet, a Computer Science student at UNC Chapel Hill,
+                with a passion for turning ideas into playable experiences.
+                Whether it's building a Pokémon-style RPG from scratch or
+                generating infinite fantasy worlds, I love projects that live
+                at the intersection of code and creativity.
+            </p>
+            <p>
+                Outside of coding you'll find me deep in a video game,
+                hunting for new music, or keeping up with UNC sports or the
+                Toronto Maple Leafs.
+            </p>
+        </div>
+        <div class="skills-label">— LANGUAGES &amp; TOOLS —</div>
+        <div class="skill-chips">
+            <span class="chip">C#</span>
+            <span class="chip">Java</span>
+            <span class="chip">Python</span>
+            <span class="chip">JavaScript</span>
+            <span class="chip">React</span>
+            <span class="chip">Firebase</span>
+            <span class="chip">C / C++</span>
+            <span class="chip">Godot</span>
+            <span class="chip">Game Maker</span>
+            <span class="chip">.NET</span>
+            <span class="chip">SkiaSharp</span>
+            <span class="chip">HTML / CSS</span>
+        </div>
+    </div>
+</div>
+
+<!-- INTERESTS -->
+<div class="section-wrap" id="interests">
+    <div class="dialog-box reveal">
+        <h2 class="section-title"><span class="s-icon">★</span> INTERESTS</h2>
+        <div class="interests-layout">
+            <div class="interests-menu">
+                <div class="interest-tab active" data-tab="gaming">
+                    <span class="tab-arrow">▶</span> 🎮 GAMING
+                </div>
+                <div class="interest-tab" data-tab="music">
+                    <span class="tab-arrow">▶</span> 🎵 MUSIC
+                </div>
+                <div class="interest-tab" data-tab="sports">
+                    <span class="tab-arrow">▶</span> 🏒 SPORTS
+                </div>
+            </div>
+            <div class="interests-content">
+                <div class="interest-panel active" id="tab-gaming">
+                    <h3>🎮 GAMING</h3>
+                    <p>
+                        Video games are what got me into programming in the first place.
+                        I grew up wanting to understand how the worlds I was exploring actually worked —
+                        and eventually started building my own.
+                    </p>
+                    <p>
+                        My taste is broad: from old-school JRPGs like
+                        <span class="interest-highlight">EarthBound</span> and
+                        <span class="interest-highlight">Pokémon</span>
+                        to modern indie titles. If it has good world-building, I'm in.
+                    </p>
+                    <p>
+                        Game design is where my passion for software really lives —
+                        building systems that feel fun to interact with,
+                        not just functional.
+                    </p>
+                </div>
+                <div class="interest-panel" id="tab-music">
+                    <h3>🎵 MUSIC</h3>
+                    <p>
+                        Music is a constant for me — on while coding, on while gaming,
+                        on while doing pretty much anything.
+                    </p>
+                    <p>
+                        My taste covers a lot of ground. I'm always hunting for something
+                        new to put on, and I genuinely enjoy the process of stumbling onto
+                        an artist or album I'd never heard before.
+                    </p>
+                    <p>
+                        Video game soundtracks count too —
+                        <span class="interest-highlight">Mason Lindroth</span> and
+                        <span class="interest-highlight">Hiroshi Kanazu</span>
+                        live rent-free in my head.
+                    </p>
+                </div>
+                <div class="interest-panel" id="tab-sports">
+                    <h3>🏒 SPORTS</h3>
+                    <p>
+                        Big sports household growing up, and that stuck.
+                        I follow a few teams closely and will watch almost any sport
+                        if the stakes are right.
+                    </p>
+                    <p>
+                        On the college side, it's all about the
+                        <span class="interest-highlight">UNC Tar Heels</span> —
+                        basketball especially. Dean Smith Court is a special place.
+                    </p>
+                    <p>
+                        And then there's the
+                        <span class="interest-highlight">Toronto Maple Leafs</span>,
+                        who are contractually obligated to break my heart every spring.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="section-wrap" id="projects">
+    <h2 class="section-title reveal"><span class="s-icon">◆</span> PROJECTS</h2>
+    <div class="projects-grid">
+
+        <!-- DraftBattle -->
+        <div class="project-card reveal">
+            <div class="project-screenshot">
+                <img src="images/draftbattle-screenshot.png" alt="DraftBattle screenshot">
+                <div class="ph-icon">🖼️</div>
+                <div class="ph-label">ADD SCREENSHOT<br>images/draftbattle-screenshot.png</div>
+            </div>
+            <div class="card-header">
+                <div class="card-icon">🎮</div>
+                <div class="card-title">DRAFT BATTLE</div>
+            </div>
+            <div class="card-body">
+                <p class="card-desc">
+                    A real-time multiplayer party game just like Jackbox, but for arguments.
+                    Players join a shared room, snake-draft picks in themed categories,
+                    then vote in a single-elimination bracket. Born from chaotic college whiteboard sessions.
+                </p>
+                <div class="tag-row">
+                    <span class="tag">React</span>
+                    <span class="tag">Firebase</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Multiplayer</span>
+                </div>
+                <div class="card-links">
+                    <a href="https://draft-battle.web.app" target="_blank" class="card-link primary">▶ PLAY LIVE</a>
+                    <a href="https://github.com/chet-allenv/DraftBattle" target="_blank" class="card-link">GitHub</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- WorldMapGenerator -->
+        <div class="project-card reveal">
+            <div class="project-screenshot">
+                <img src="images/worldmap-screenshot.png" alt="WorldMapGenerator screenshot">
+                <div class="ph-icon">🖼️</div>
+                <div class="ph-label">ADD SCREENSHOT<br>images/worldmap-screenshot.png</div>
+            </div>
+            <div class="card-header">
+                <div class="card-icon">🗺️</div>
+                <div class="card-title">WORLD MAP GENERATOR</div>
+            </div>
+            <div class="card-body">
+                <p class="card-desc">
+                    A procedural 2D fantasy world map generator. Feed it a seed,
+                    get a unique world, oceans, beaches, forests, mountains, and snow peaks,
+                    rendered with Perlin noise and directional elevation shading.
+                </p>
+                <div class="tag-row">
+                    <span class="tag">C#</span>
+                    <span class="tag">.NET 8</span>
+                    <span class="tag">SkiaSharp</span>
+                    <span class="tag">Proc. Gen</span>
+                </div>
+                <div class="card-links">
+                    <a href="https://github.com/chet-allenv/WorldMapGenerator" target="_blank" class="card-link primary">▶ VIEW CODE</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PokemonProject -->
+        <div class="project-card reveal">
+            <div class="project-screenshot">
+                <img src="images/pokemon-screenshot.png" alt="Pokemon Project screenshot">
+                <div class="ph-icon">🖼️</div>
+                <div class="ph-label">ADD SCREENSHOT<br>images/pokemon-screenshot.png</div>
+            </div>
+            <div class="card-header">
+                <div class="card-icon">⚔️</div>
+                <div class="card-title">POKEMON PROJECT</div>
+            </div>
+            <div class="card-body">
+                <p class="card-desc">
+                    A fan-made Pokémon-style RPG built from scratch in C#.
+                    Custom battle system and game logic with
+                    no engine shortcuts. A love letter to the games that
+                    made me want to build things.
+                </p>
+                <div class="tag-row">
+                    <span class="tag">C#</span>
+                    <span class="tag">RPG</span>
+                    <span class="tag">Game Dev</span>
+                </div>
+                <div class="card-links">
+                    <a href="https://github.com/chet-allenv/PokemonProject" target="_blank" class="card-link primary">▶ VIEW CODE</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- CONTACT -->
+<div class="section-wrap" id="contact">
+    <div class="dialog-box reveal">
+        <h2 class="section-title"><span class="s-icon">♪</span> CONTACT</h2>
+        <div class="contact-center">
+            <p class="contact-tagline">
+                Want to build something cool together?<br>
+                Let's talk!
+            </p>
+            <div class="contact-btns">
+                <a href="mailto:chet.allenv@gmail.com" class="contact-btn btn-email">📧 EMAIL ME</a>
+                <a href="https://www.linkedin.com/in/chet-allen-v/" target="_blank" class="contact-btn btn-linkedin">💼 LINKEDIN</a>
+                <a href="https://github.com/chet-allenv" target="_blank" class="contact-btn btn-github">🐙 GITHUB</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 CHET ALLEN</p>
+    <p style="margin-top:4px; font-size:6px; opacity:0.4;">psst — try the konami code</p>
+</footer>
+
+<script>
+/* ── TYPEWRITER HERO ──────────────────────────────────────── */
+const lines = [
+    'CS Student @ UNC Chapel Hill',
+    'Game Dev & Software Builder',
+    'Always Building Something'
+];
+let lineIdx = 0, charIdx = 0, deleting = false;
+const typed = document.getElementById('heroTyped');
+function typeWriter() {
+    const current = lines[lineIdx];
+    if (!deleting) {
+        typed.textContent = current.slice(0, ++charIdx);
+        if (charIdx === current.length) {
+            deleting = true;
+            setTimeout(typeWriter, 1800);
+            return;
+        }
+    } else {
+        typed.textContent = current.slice(0, --charIdx);
+        if (charIdx === 0) {
+            deleting = false;
+            lineIdx = (lineIdx + 1) % lines.length;
+        }
+    }
+    setTimeout(typeWriter, deleting ? 45 : 70);
+}
+typeWriter();
+
+/* ── HERO PHOTO ───────────────────────────────────────────── */
+const heroImg = document.querySelector('.hero-photo img');
+if (heroImg) {
+    heroImg.addEventListener('load', () => {
+        heroImg.style.display = 'block';
+        document.querySelector('.hero-photo .ph-icon').style.display = 'none';
+        document.querySelector('.hero-photo .ph-label').style.display = 'none';
+    });
+}
+
+/* ── PSI SCROLL METER ─────────────────────────────────────── */
+const psiFill = document.getElementById('psiFill');
+window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    psiFill.style.height = Math.min(pct * 100, 100) + '%';
+});
+
+/* ── SCROLL REVEAL ────────────────────────────────────────── */
+const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ── ACTIVE NAV ON SCROLL ─────────────────────────────────── */
+const navLinks = document.querySelectorAll('.nav-links a');
+const navObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            const link = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+            if (link) link.classList.add('active');
+        }
+    });
+}, { threshold: 0.4 });
+document.querySelectorAll('#about, #interests, #projects, #contact').forEach(s => navObs.observe(s));
+
+/* ── INTERESTS TABS ───────────────────────────────────────── */
+document.querySelectorAll('.interest-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.interest-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.interest-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + target).classList.add('active');
+    });
+});
+
+/* ── PROJECT SCREENSHOT REVEAL ────────────────────────────── */
+document.querySelectorAll('.project-screenshot').forEach(ps => {
+    const img = ps.querySelector('img');
+    if (!img) return;
+    img.addEventListener('load', () => {
+        img.style.display = 'block';
+        ps.querySelector('.ph-icon').style.display  = 'none';
+        ps.querySelector('.ph-label').style.display = 'none';
+    });
+});
+
+/* ── CLICK BURST ──────────────────────────────────────────── */
+const burstSymbols = ['★', '✿', '♪', '◆', '▲', '✦', '●'];
+const burstColors  = ['#D4940A', '#E06418', '#C87820', '#B03010', '#6B3200'];
+document.addEventListener('click', e => {
+    if (e.target.closest('a, button, .interest-tab')) return;
+    for (let i = 0; i < 7; i++) {
+        const p = document.createElement('div');
+        p.className = 'burst-particle';
+        p.textContent = burstSymbols[Math.floor(Math.random() * burstSymbols.length)];
+        const angle = (i / 7) * 360 + Math.random() * 30;
+        const dist  = 55 + Math.random() * 50;
+        const rad   = angle * Math.PI / 180;
+        p.style.setProperty('--dx', `${Math.cos(rad) * dist}px`);
+        p.style.setProperty('--dy', `${Math.sin(rad) * dist}px`);
+        p.style.left  = e.clientX + 'px';
+        p.style.top   = e.clientY + 'px';
+        p.style.color = burstColors[Math.floor(Math.random() * burstColors.length)];
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 900);
+    }
+});
+
+/* ── KONAMI CODE ──────────────────────────────────────────── */
+const konami = [38,38,40,40,37,39,37,39,66,65];
+let konamiIdx = 0;
+const overlay = document.getElementById('konami-overlay');
+document.addEventListener('keydown', e => {
+    konamiIdx = (e.keyCode === konami[konamiIdx]) ? konamiIdx + 1 : 0;
+    if (konamiIdx === konami.length) {
+        konamiIdx = 0;
+        overlay.classList.add('show');
+    }
+});
+overlay.addEventListener('click', () => overlay.classList.remove('show'));
+</script>
+</body>
+</html>
